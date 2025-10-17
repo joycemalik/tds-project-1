@@ -110,3 +110,34 @@ def create_and_push_to_github(repo_name: str, files: dict) -> dict | None:
     except Exception as e:
         print(f"❌ An error occurred with GitHub: {e}")
         return None
+    
+def get_file_from_repo(repo_name: str, file_path: str) -> str | None:
+    """
+    Fetches the content of a specific file from a GitHub repository.
+    """
+    try:
+        token = os.getenv("GITHUB_PAT")
+        username = os.getenv("GITHUB_USERNAME")
+        g = Github(token)
+        user = g.get_user()
+
+        print(f"🔎 Accessing repo '{repo_name}' to fetch '{file_path}'...")
+        repo = user.get_repo(repo_name)
+        
+        # Get the file content object
+        file_content = repo.get_contents(file_path, ref=repo.default_branch)
+        
+        # Decode the content from base64
+        decoded_content = file_content.decoded_content.decode('utf-8')
+        print(f"✅ Successfully fetched content of '{file_path}'.")
+        return decoded_content
+
+    except GithubException as e:
+        if e.status == 404:
+            print(f"❌ Error fetching file: Repository '{repo_name}' or file '{file_path}' not found.")
+        else:
+            print(f"❌ An error occurred fetching file from GitHub: {e}")
+        return None
+    except Exception as e:
+        print(f"❌ An unexpected error occurred: {e}")
+        return None

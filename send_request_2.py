@@ -3,30 +3,27 @@ import requests
 import json
 
 # The URL of your local FastAPI endpoint
-url = "http://127.0.0.1:8000/build"
+url = "http://127.0.0.1:8000/revise" 
 
-# Define the JSON payload as a Python dictionary.
-# Make sure the 'secret' matches the one in your .env file!
 payload = {
   "email": "test-from-python@example.com",
-  "secret": "s3cr3t", # <-- IMPORTANT: Use your correct secret
-  "task": "indian-monopoly",
-  "round": 1,
-  "nonce": "nonce-xyz",
-  "brief": "A recreation of basic Monopoly game with Indian cities as properties. Users can buy/sell properties, and view their portfolio, entirely with ai.",
+  "secret": "s3cr3t",
+  "task": "indian-monopoly", 
+  "round": 2, 
+  "nonce": "nonce-abc-round2",
+  "brief": "build a board, pieces, and a dice roller for the Indian Monopoly game, improve it, add animations.", # <-- NEW brief
   "checks": [
     "Repo has MIT license",
     "README.md is professional",
     "index.html functions as a Monopoly game",
     "Properties can be bought and sold",
     "User portfolio is displayed correctly"
-
   ],
   "evaluation_url": "https://httpbin.org/post",
   "attachments": []
 }
 
-print("🚀 Sending request to the API...")
+print("🚀 Sending REVISE request to the API...")
 
 try:
     # Send the POST request.
